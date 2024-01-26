@@ -1,0 +1,54 @@
+
+/*Login*/
+
+.loginContainer{
+    text-align: center;
+    font-family: Aharoni, serif;
+    justify-content: center;
+    height: 70vh; /* Ensure the container takes the full height of the viewport */
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    background-color: #6666a1;
+    color: #fff;
+
+}
+
+.Login-header{
+
+}
+
+.Details-message{
+margin-top: 5px;
+}
+
+.signin-button {
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: #7d7df3;
+    color: #fff;
+    font-family: 'Aharoni', serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signin-button:hover {
+    background-color: #5a5acf;
+}
+
+/* Additional styling for focus state (optional) */
+.signin-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(125, 125, 243, 0.5);
+}
+
+.signin-field{
+    //border: none;
+    outline: none;
+    font-family: Aharoni,'serif';
+    width: 150px;
+    font-size: 16px;
+}
