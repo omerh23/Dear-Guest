@@ -1,5 +1,6 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId} = require('mongodb');
+
 const cors = require('cors');
 
 const uri = "mongodb+srv://DearGuest23:rUKmEgVN6lPmfYaE@cluster.kly5ytl.mongodb.net/?retryWrites=true&w=majority";
@@ -36,6 +37,22 @@ app.post('/login', async (req, res) => {
     }
 
 });
+
+app.post('/institutionList', async (req, res) => {
+    try {
+        const database = client.db('admin1'); // Ensure this is the correct database name
+        const institutions = database.collection('institutions');
+
+        const institutionList = await institutions.findOne({ _id: new ObjectId('65b3692bf645ea35996bbc12') });
+        console.log("Institution List: ", institutionList.list);
+
+        res.send(institutionList.list);
+    } catch (error) {
+        console.error("Error fetching institutions: ", error);
+        res.status(500).send("Error fetching institutions");
+    }
+});
+
 
 
 app.listen(port, () => {
