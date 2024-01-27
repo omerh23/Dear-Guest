@@ -3,30 +3,17 @@ import './styles.css';
 import Button from 'react-bootstrap/Button';
 import axios from "axios";
 import Combobox from "react-widgets/Combobox";
+import DropdownList from "react-widgets/DropdownList";
 
 function Login() {
 
     const [userId, setUserId] = useState('');
     const [detailMessage, setDetailMessage] = useState("");
     const [isLoading, setLoading] = useState(false);
-    const [list, setList] = useState([]);
+    const [list, setList] = useState({aleyzahav:"עלי זהב",shiratHannan:"שירת חנן"});
     const [selectedInstitution, setSelectedInstitution] = useState("");
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    // Adjusted useEffect hook
-    useEffect(() => {
-        async function fetchInstitutionList() {
-            try {
-                const res = await axios.post('http://localhost:8000/institutionList');
-                setList(res.data);
-                console.log("list from server",res.data);
-            } catch (error) {
-                console.error("Error fetching institution list", error);
-
-            }
-        }
-
-        fetchInstitutionList();
-    }, []);
 
     function handleId(event) {
         setUserId(event.target.value);
@@ -53,20 +40,37 @@ function Login() {
             }
         }
     };
+    const institutionOptions = Object.values(list);
+
+    const handleInstitutionChange = (event) => {
+        setSelectedInstitution(event.target.value);
+    };
 
     return (
+
+
         <div className="loginContainer">
             <h1 className="Login-header">כניסה לשירות</h1>
             <div className="center-field">
-                <form>
-                    <Combobox
-                        data={list}
-                        value={selectedInstitution}
-                        onChange={(value) => setSelectedInstitution(value)}
-                        placeholder="בחר מוסד"
-                    />
 
-                    <p className="fonts">הכנס ת"ז</p>
+                <form>
+                    <select className="signin-field"
+                        value={selectedInstitution}
+                        onChange={handleInstitutionChange}
+                    >
+                        <option value="" disabled>בחר מוסד</option>
+                        {Object.entries(list).map(([key, value]) => (
+                            <option key={key} value={key}>
+                                {value}
+                            </option>
+                        ))}
+                    </select>
+
+
+                    <br/>
+                    <br/>
+                    <input placeholder="הכנס תז" className="signin-field" type="text" value={userId} onChange={handleId} required />
+                   <br/>
                     <Button
                         className="signin-button"
                         variant="primary"
@@ -75,7 +79,6 @@ function Login() {
                     >
                         {isLoading ? '...טוען' : 'אישור'}
                     </Button>
-                    <input className="signin-field" type="text" value={userId} onChange={handleId} required />
                 </form>
                 <div className="Details-message">{detailMessage}</div>
             </div>

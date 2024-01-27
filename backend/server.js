@@ -44,7 +44,7 @@ app.post('/institutionList', async (req, res) => {
         const institutions = database.collection('institutions');
 
         const institutionList = await institutions.findOne({ _id: new ObjectId('65b3692bf645ea35996bbc12') });
-        console.log("Institution List: ", institutionList.list);
+        //console.log("Institution List: ", institutionList.list);
 
         res.send(institutionList.list);
     } catch (error) {

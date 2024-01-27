@@ -51,4 +51,6 @@ margin-top: 5px;
     font-family: Aharoni,'serif';
     width: 150px;
     font-size: 16px;
+    display: flex;
 }
+
