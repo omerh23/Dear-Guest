@@ -84,6 +84,7 @@ app.post('/finishMeeting', async (req, res) => {
         } else {
             res.send('Meeting not found');
         }
+
     } catch (error) {
         console.error('Error finishing meeting:', error);
         res.status(500).send('Internal Server Error');
