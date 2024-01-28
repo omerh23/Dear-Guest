@@ -146,8 +146,8 @@ margin-top: 5px;
 .meeting-content {
     border: 1px solid #ccc;
     padding: 10px;
-    margin: 5px;
-    width: 200px; /* Adjust the width as needed */
+    /*margin: 5px;*/
+    width: 500px; /* Adjust the width as needed */
 }
 
 .meeting-details {
@@ -157,4 +157,26 @@ margin-top: 5px;
 
 }
 
-/* Add additional styles as needed */
+.meeting-details-button{
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    background-color: #7d7df3;
+    color: #fff;
+    font-family: 'Aharoni', serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+
+}
+
+.meeting-details-button:hover {
+    background-color: #5a5acf;
+}
+
+/* Additional styling for focus state (optional) */
+.meeting-details-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(125, 125, 243, 0.5);
+}

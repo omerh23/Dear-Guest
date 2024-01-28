@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import axios from "axios";
 
 
 
@@ -12,6 +13,20 @@ const Home = () => {
     const [guestName,setGuestName] = useState('');
     const [hourArrive, setHourArrive] = useState('');
     const [detailMessage, setDetailMessage] = useState('');
+    const [endMeetingPop, setEndMeetingPop] = useState(false);
+    const [meetingId,setMeetingId] = useState(null);
+
+    useEffect(  () => {
+        async function meetingLists(){
+            const getMeetings =  await axios.post('http://localhost:8000/meetingsList');
+            setMeeting(getMeetings.data);
+        }
+        meetingLists();
+    },[]);
+
+
+
+
 
     function HandleLogout() {
         navigate('/');
@@ -20,21 +35,28 @@ const Home = () => {
         setMeetingButton(!meetingButton);
     }
 
-    function HandleAddMeeting() {
+    async function HandleAddMeeting() {
         if (!guestName.trim() || !hourArrive.trim()) {
             // Handle the case where one or both fields are empty
             setDetailMessage('יש למלא את כל השדות');
             return;
         }
+
         setDetailMessage('');
         const newMeeting = {
             guestName: guestName,
             arrivalTime: hourArrive
         };
 
-        // Update the meeting state
-        setMeeting([...meeting, newMeeting]);
+        const res = await axios.post('http://localhost:8000/addMeeting',{newMeeting});
+        console.log(res.data)
+        if (res.data === 'success'){
+            setMeeting([...meeting, newMeeting]);
 
+        }
+        else{
+            setDetailMessage('failed');
+        }
         // Clear the input fields
         setGuestName('');
         setHourArrive('');
@@ -49,6 +71,19 @@ const Home = () => {
     function HandleGuestName(event) {
         setGuestName(event.target.value);
     }
+
+    function HandleEndMeeting(meetingDetails) {
+        setMeeting(prevMeeting => prevMeeting.filter(item => item !== meetingDetails));
+        setEndMeetingPop(false);
+        setMeetingId(null);
+
+    }
+
+    function EndMeetingPop(){
+
+    }
+
+
 
     return (
         <div>
@@ -67,11 +102,10 @@ const Home = () => {
                         <>
                             <input className="meeting-field" placeholder="שם האורח" type="text" value={guestName} onChange={HandleGuestName} required />
                             <input className="meeting-field" placeholder="שעת הגעה" type="text" value={hourArrive} onChange={HandleHourArrive} required />
-                            <Button onClick={HandleAddMeeting}>הוסף</Button>
+                            <Button onClick={HandleAddMeeting} className="meeting-button">הוסף</Button>
                         </>
-
-
                         )}
+
                 </div>
                 {detailMessage}
                 <h2>פגישות להיום</h2>
@@ -83,13 +117,27 @@ const Home = () => {
                             {meeting.map((meetingItem, index) => (
                                 <li key={index} className="meeting-content">
                                     <div className="meeting-details">
+                                        <Button className="meeting-details-button" style={{background:"green"}} onClick={() =>
+                                        {setEndMeetingPop(true); setMeetingId(index)}}
+                                        >סיים פגישה</Button>
+                                        {/*<Button className="meeting-details-button" style={{background:"green"}}>פגישה התקיימה</Button>*/}
                                         <p>שעת הגעה: {meetingItem.arrivalTime}</p>
                                         <p>שם האורח: {meetingItem.guestName}</p>
-
-                                        {/* Add other details as needed */}
                                     </div>
+
+                                    {endMeetingPop && meetingId === index && (
+                                        <div className="end-meeting-pop">
+                                            <p>האם אתה רוצה לסיים פגישה זו</p>
+                                            <Button className="meeting-details-button" style={{background:"green"}} onClick={() => HandleEndMeeting(meetingItem)}
+                                            >כן</Button>
+                                            <Button className="meeting-details-button" style={{background:"red"}} onClick={() => setEndMeetingPop(false)}
+                                            >לא</Button>
+
+                                        </div>
+                                    )}
                                 </li>
                             ))}
+
                         </ul>
                     </div>
 

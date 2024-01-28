@@ -10,7 +10,7 @@ function Login() {
     const [userId, setUserId] = useState('');
     const [detailMessage, setDetailMessage] = useState("");
     const [isLoading, setLoading] = useState(false);
-    const [list, setList] = useState({aleyZahav:"אולפנת עלי זהב",shiratHannan:"שירת חנן"});
+    const [list, setList] = useState({aleyZahv:"אולפנת עלי זהב",shiratHannan:"שירת חנן"});
     const [selectedInstitution, setSelectedInstitution] = useState("");
     const navigate = useNavigate();
 
