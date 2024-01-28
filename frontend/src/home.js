@@ -72,8 +72,14 @@ const Home = () => {
         setGuestName(event.target.value);
     }
 
-    function HandleEndMeeting(meetingDetails) {
-        setMeeting(prevMeeting => prevMeeting.filter(item => item !== meetingDetails));
+    async function HandleEndMeeting(meetingDetails) {
+        const res = await axios.post('http://localhost:8000/finishMeeting', {meetingDetails});
+        console.log(res.data)
+        if (res.data === 'success') {
+            setMeeting(prevMeeting => prevMeeting.filter(item => item !== meetingDetails));
+
+        }
+
         setEndMeetingPop(false);
         setMeetingId(null);
 

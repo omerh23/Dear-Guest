@@ -67,6 +67,30 @@ app.post('/addMeeting', async (req, res) => {
     }
 });
 
+app.post('/finishMeeting', async (req, res) => {
+    try {
+        const { meetingDetails } = req.body;
+        const database = client.db('aleyZahv');
+        const meetingsCollection = database.collection('meetings');
+
+        // Update the document by pulling the specific meeting from the 'meeting' array
+        const result = await meetingsCollection.updateOne(
+            { id: '123', meeting: { $elemMatch: meetingDetails } },
+            { $pull: { meeting: meetingDetails } }
+        );
+
+        if (result.modifiedCount > 0) {
+            res.send('success');
+        } else {
+            res.send('Meeting not found');
+        }
+    } catch (error) {
+        console.error('Error finishing meeting:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
