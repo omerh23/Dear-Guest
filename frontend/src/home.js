@@ -3,6 +3,12 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from "axios";
+import DatePicker, {registerLocale} from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
+import he from 'date-fns/locale/he'; // Import Hebrew locale from date-fns
+
+registerLocale('he', he)
 
 
 
@@ -15,6 +21,8 @@ const Home = () => {
     const [detailMessage, setDetailMessage] = useState('');
     const [endMeetingPop, setEndMeetingPop] = useState(false);
     const [meetingId,setMeetingId] = useState(null);
+    const [startDate, setStartDate] = useState(new Date());
+
 
     useEffect(  () => {
         async function meetingLists(){
@@ -45,7 +53,8 @@ const Home = () => {
         setDetailMessage('');
         const newMeeting = {
             guestName: guestName,
-            arrivalTime: hourArrive
+            arrivalTime: hourArrive,
+            date: startDate
         };
 
         const res = await axios.post('http://localhost:8000/addMeeting',{newMeeting});
@@ -85,10 +94,6 @@ const Home = () => {
 
     }
 
-    function EndMeetingPop(){
-
-    }
-
 
 
     return (
@@ -108,6 +113,14 @@ const Home = () => {
                         <>
                             <input className="meeting-field" placeholder="שם האורח" type="text" value={guestName} onChange={HandleGuestName} required />
                             <input className="meeting-field" placeholder="שעת הגעה" type="text" value={hourArrive} onChange={HandleHourArrive} required />
+                            <DatePicker
+                                selected={startDate}
+                                onChange={(date) => setStartDate(date)}
+                                locale="hebrew"
+                                dateFormat="dd/MM/yyyy"
+                                minDate={new Date()} // Set minDate to the current date
+                                className="meeting-field"
+                            />
                             <Button onClick={HandleAddMeeting} className="meeting-button">הוסף</Button>
                         </>
                         )}
@@ -129,6 +142,8 @@ const Home = () => {
                                         {/*<Button className="meeting-details-button" style={{background:"green"}}>פגישה התקיימה</Button>*/}
                                         <p>שעת הגעה: {meetingItem.arrivalTime}</p>
                                         <p>שם האורח: {meetingItem.guestName}</p>
+                                        <p>תאריך: {format(new Date(meetingItem.date), 'dd/MM/yy')}</p>
+
                                     </div>
 
                                     {endMeetingPop && meetingId === index && (
