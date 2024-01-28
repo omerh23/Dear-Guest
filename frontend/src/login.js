@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import './styles.css';
 import Button from 'react-bootstrap/Button';
 import axios from "axios";
-import Combobox from "react-widgets/Combobox";
-import DropdownList from "react-widgets/DropdownList";
+import { useNavigate } from "react-router-dom";
+
 
 function Login() {
 
     const [userId, setUserId] = useState('');
     const [detailMessage, setDetailMessage] = useState("");
     const [isLoading, setLoading] = useState(false);
-    const [list, setList] = useState({aleyzahav:"עלי זהב",shiratHannan:"שירת חנן"});
+    const [list, setList] = useState({aleyZahav:"אולפנת עלי זהב",shiratHannan:"שירת חנן"});
     const [selectedInstitution, setSelectedInstitution] = useState("");
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const navigate = useNavigate();
 
 
     function handleId(event) {
@@ -23,7 +23,12 @@ function Login() {
         setLoading(true);
         setDetailMessage("");
 
-        if (userId.length < 9) {
+        if (!selectedInstitution) {
+            setDetailMessage("בחר מוסד לפני המשך");
+            setLoading(false);
+            return;
+        }
+        if (userId.length !== 9) {
             console.log("ID should be 9 digits long");
             setDetailMessage("אנא הקש מס' תז בן 9 ספרות");
             setLoading(false);
@@ -31,6 +36,10 @@ function Login() {
             try {
                 const res = await axios.post('http://localhost:8000/login', { id: userId, institution: selectedInstitution });
                 setDetailMessage(res.data);
+                if(res.data === 'success'){
+                    navigate("/home");
+                }
+
             } catch (error) {
                 console.error("Login error", error);
                 setDetailMessage("Login failed");
@@ -44,6 +53,7 @@ function Login() {
 
     const handleInstitutionChange = (event) => {
         setSelectedInstitution(event.target.value);
+        console.log(selectedInstitution)
     };
 
     return (
@@ -57,19 +67,21 @@ function Login() {
                     <select className="signin-field"
                         value={selectedInstitution}
                         onChange={handleInstitutionChange}
+
                     >
                         <option value="" disabled>בחר מוסד</option>
                         {Object.entries(list).map(([key, value]) => (
                             <option key={key} value={key}>
                                 {value}
                             </option>
+
                         ))}
                     </select>
 
 
                     <br/>
                     <br/>
-                    <input placeholder="הכנס תז" className="signin-field" type="text" value={userId} onChange={handleId} required />
+                    <input placeholder="הכנס ת''ז" className="signin-field" type="text" value={userId} onChange={handleId} required />
                    <br/>
                     <Button
                         className="signin-button"
