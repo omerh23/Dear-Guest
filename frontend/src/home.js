@@ -6,9 +6,6 @@ import axios from "axios";
 import DatePicker, {registerLocale} from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns';
-import he from 'date-fns/locale/he'; // Import Hebrew locale from date-fns
-
-registerLocale('he', he)
 
 
 
@@ -18,19 +15,50 @@ const Home = () => {
     const [meetingButton, setMeetingButton] = useState(false);
     const [guestName,setGuestName] = useState('');
     const [hourArrive, setHourArrive] = useState('');
+    const [minutesArrive, setMinutesArrive] = useState('');
     const [detailMessage, setDetailMessage] = useState('');
     const [endMeetingPop, setEndMeetingPop] = useState(false);
     const [meetingId,setMeetingId] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
 
 
-    useEffect(  () => {
-        async function meetingLists(){
-            const getMeetings =  await axios.post('http://localhost:8000/meetingsList');
-            setMeeting(getMeetings.data);
-        }
+    async function meetingLists() {
+        const getMeetings = await axios.post('http://localhost:8000/meetingsList');
+
+        const sortMeetings = [...getMeetings.data].sort((a, b) => {
+            const [dayA, monthA, yearA] = a.date.split('/').map(Number);
+            const [dayB, monthB, yearB] = b.date.split('/').map(Number);
+
+            if (yearA !== yearB) {
+                return yearA - yearB;
+            }
+
+            if (monthA !== monthB) {
+                return monthA - monthB;
+            }
+
+            if (dayA !== dayB) {
+                return dayA - dayB;
+            }
+
+            const [hourA, minutesA] = a.arrivalTime.split(':').map(Number);
+            const [hourB, minutesB] = b.arrivalTime.split(':').map(Number);
+
+            if (hourA !== hourB) {
+                return hourA - hourB;
+            }
+
+            return minutesA - minutesB;
+        });
+
+        setMeeting(sortMeetings);
+    }
+
+
+    useEffect(() => {
         meetingLists();
-    },[]);
+    }, []);
+
 
 
 
@@ -43,33 +71,48 @@ const Home = () => {
         setMeetingButton(!meetingButton);
     }
 
+    function validateTimeFormat(hours, minutes) {
+        const hoursValid = /^[0-9]{1,2}$/.test(hours) && hours >= 0 && hours <= 23;
+        const minutesValid = /^[0-9]{1,2}$/.test(minutes) && minutes >= 0 && minutes <= 59;
+        return hoursValid && minutesValid;
+    }
+
+
     async function HandleAddMeeting() {
-        if (!guestName.trim() || !hourArrive.trim()) {
-            // Handle the case where one or both fields are empty
-            setDetailMessage('יש למלא את כל השדות');
+        if (!guestName.trim() || !validateTimeFormat(hourArrive, minutesArrive)) {
+            // Handle the case where one or both fields are empty or the pattern is not valid
+            setDetailMessage('יש למלא את כל השדות בצורה תקינה');
             return;
         }
 
         setDetailMessage('');
+
+        // Format hours and minutes with leading zeros
+        const formattedHours = hourArrive.padStart(2, '0');
+        const formattedMinutes = minutesArrive.padStart(2, '0');
+        const formattedDate = format(startDate, 'dd/MM/yyyy');
+
         const newMeeting = {
             guestName: guestName,
-            arrivalTime: hourArrive,
-            date: startDate
+            arrivalTime: `${formattedHours}:${formattedMinutes}`,
+            date: formattedDate,
         };
 
-        const res = await axios.post('http://localhost:8000/addMeeting',{newMeeting});
-        console.log(res.data)
-        if (res.data === 'success'){
+        const res = await axios.post('http://localhost:8000/addMeeting', { newMeeting });
+        console.log(res.data);
+        if (res.data === 'success') {
             setMeeting([...meeting, newMeeting]);
-
-        }
-        else{
+        } else {
             setDetailMessage('failed');
         }
+
         // Clear the input fields
         setGuestName('');
         setHourArrive('');
+        setMinutesArrive('');
     }
+
+
 
 
 
@@ -95,6 +138,10 @@ const Home = () => {
     }
 
 
+    function HandleMinutesArrive(event) {
+        setMinutesArrive(event.target.value);
+
+    }
 
     return (
         <div>
@@ -112,11 +159,13 @@ const Home = () => {
                     {meetingButton && (
                         <>
                             <input className="meeting-field" placeholder="שם האורח" type="text" value={guestName} onChange={HandleGuestName} required />
-                            <input className="meeting-field" placeholder="שעת הגעה" type="text" value={hourArrive} onChange={HandleHourArrive} required />
+                            <input className="hour-meeting-field" type="number" min="00" max="59" placeholder="דקה"  value={minutesArrive} onChange={HandleMinutesArrive} required />
+                            <p>:</p>
+                            <input className="hour-meeting-field" type="number" min="00" max="23" placeholder="שעה"  value={hourArrive} onChange={HandleHourArrive} required />
+
                             <DatePicker
                                 selected={startDate}
                                 onChange={(date) => setStartDate(date)}
-                                locale="hebrew"
                                 dateFormat="dd/MM/yyyy"
                                 minDate={new Date()} // Set minDate to the current date
                                 className="meeting-field"
@@ -142,8 +191,7 @@ const Home = () => {
                                         {/*<Button className="meeting-details-button" style={{background:"green"}}>פגישה התקיימה</Button>*/}
                                         <p>שעת הגעה: {meetingItem.arrivalTime}</p>
                                         <p>שם האורח: {meetingItem.guestName}</p>
-                                        <p>תאריך: {format(new Date(meetingItem.date), 'dd/MM/yy')}</p>
-
+                                        <p>תאריך: {meetingItem.date}</p>
                                     </div>
 
                                     {endMeetingPop && meetingId === index && (

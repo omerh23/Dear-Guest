@@ -180,3 +180,8 @@ margin-top: 5px;
     outline: none;
     box-shadow: 0 0 0 3px rgba(125, 125, 243, 0.5);
 }
+
+.hour-meeting-field{
+    width: 39px;
+    margin: 2px
+}
