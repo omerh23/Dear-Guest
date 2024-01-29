@@ -100,7 +100,8 @@ const Home = () => {
             guestName: guestName,
             arrivalTime: `${formattedHours}:${formattedMinutes}`,
             date: formattedDate,
-            userId: userId
+            userId: userId,
+            username:username
         };
 
         const res = await axios.post('http://localhost:8000/addMeeting', { newMeeting });
@@ -201,9 +202,10 @@ const Home = () => {
                                                     >
                                                         סיים פגישה
                                                     </Button>
-                                                    <p>שעת הגעה: {meetingItem.arrivalTime}</p>
-                                                    <p>שם האורח: {meetingItem.guestName}</p>
-                                                    <p>תאריך: {meetingItem.date}</p>
+                                                    <p className="meeting-text">שעת הגעה: {meetingItem.arrivalTime}</p>
+                                                    <p className="meeting-text">מגיע אל: {meetingItem.username}</p>
+                                                    <p className="meeting-text">שם האורח: {meetingItem.guestName}</p>
+                                                    <p className="meeting-text">תאריך: {meetingItem.date}</p>
                                                 </div>
 
                                             {endMeetingPop && meetingId === index && (

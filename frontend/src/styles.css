@@ -145,17 +145,18 @@ margin-top: 5px;
 
 .meeting-content {
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 15px;
     /*margin: 5px;*/
-    width: 500px; /* Adjust the width as needed */
+    width: 700px; /* Adjust the width as needed */
 }
 
 .meeting-details {
     display: flex;
-    justify-content: space-between;
+   justify-content: space-between;
 
 
 }
+
 
 .meeting-details-button{
     border: none;
@@ -191,4 +192,8 @@ margin-top: 5px;
     flex-direction: row-reverse;
     margin-right: 10px;
     font-family: Aharoni, serif;
+}
+
+.meeting-text{
+    margin: 10px;
 }
