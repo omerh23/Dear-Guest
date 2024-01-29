@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion, ObjectId} = require('mongodb');
+const { MongoClient, ServerApiVersion} = require('mongodb');
 
 const cors = require('cors');
 
@@ -32,7 +32,7 @@ app.post('/login', async (req, res) => {
     const user = await users.findOne({userId: id});
     console.log("user ",user);
     if(user){
-        return res.send('success')
+        return res.send({"status":"success","username":user.username,"isAdmin":user.isAdmin});
    }
     else{
         res.send('failed')

@@ -1,15 +1,19 @@
 import React, {useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import { useState } from 'react';
 import axios from "axios";
-import DatePicker, {registerLocale} from "react-datepicker";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns';
 
 
 
 const Home = () => {
+    const location = useLocation();
+    const username = location.state.username ? location.state.username : null ;
+    const userId = location.state.userId;
+    const isAdmin = location.state.isAdmin ? location.state.isAdmin : false;
     const navigate = useNavigate();
     const [meeting, setMeeting] = useState([]);
     const [meetingButton, setMeetingButton] = useState(false);
@@ -96,6 +100,7 @@ const Home = () => {
             guestName: guestName,
             arrivalTime: `${formattedHours}:${formattedMinutes}`,
             date: formattedDate,
+            userId: userId
         };
 
         const res = await axios.post('http://localhost:8000/addMeeting', { newMeeting });
@@ -145,6 +150,7 @@ const Home = () => {
 
     return (
         <div>
+            <p className="username">שלום, {username}</p>
             <Button className="logout-button" onClick={HandleLogout}>
                 התנתק
             </Button>
@@ -176,41 +182,54 @@ const Home = () => {
 
                 </div>
                 {detailMessage}
-                <h2>פגישות להיום</h2>
-
+                <h2>יומן פגישות</h2>
                 {meeting.length > 0 ? (
-
                     <div className="meetings-result">
                         <ul className="meeting-list">
                             {meeting.map((meetingItem, index) => (
-                                <li key={index} className="meeting-content">
-                                    <div className="meeting-details">
-                                        <Button className="meeting-details-button" style={{background:"green"}} onClick={() =>
-                                        {setEndMeetingPop(true); setMeetingId(index)}}
-                                        >סיים פגישה</Button>
-                                        {/*<Button className="meeting-details-button" style={{background:"green"}}>פגישה התקיימה</Button>*/}
-                                        <p>שעת הגעה: {meetingItem.arrivalTime}</p>
-                                        <p>שם האורח: {meetingItem.guestName}</p>
-                                        <p>תאריך: {meetingItem.date}</p>
-                                    </div>
+                                (meetingItem.userId === userId || isAdmin) && (
 
-                                    {endMeetingPop && meetingId === index && (
-                                        <div className="end-meeting-pop">
-                                            <p>האם אתה רוצה לסיים פגישה זו</p>
-                                            <Button className="meeting-details-button" style={{background:"green"}} onClick={() => HandleEndMeeting(meetingItem)}
-                                            >כן</Button>
-                                            <Button className="meeting-details-button" style={{background:"red"}} onClick={() => setEndMeetingPop(false)}
-                                            >לא</Button>
+                                        <li key={index} className="meeting-content">
+                                                <div className="meeting-details">
+                                                    <Button
+                                                        className="meeting-details-button"
+                                                        style={{ background: "green" }}
+                                                        onClick={() => {
+                                                            setEndMeetingPop(true);
+                                                            setMeetingId(index);
+                                                        }}
+                                                    >
+                                                        סיים פגישה
+                                                    </Button>
+                                                    <p>שעת הגעה: {meetingItem.arrivalTime}</p>
+                                                    <p>שם האורח: {meetingItem.guestName}</p>
+                                                    <p>תאריך: {meetingItem.date}</p>
+                                                </div>
 
-                                        </div>
-                                    )}
-                                </li>
+                                            {endMeetingPop && meetingId === index && (
+                                                <div className="end-meeting-pop">
+                                                    <p>האם אתה רוצה לסיים פגישה זו</p>
+                                                    <Button
+                                                        className="meeting-details-button"
+                                                        style={{ background: "green" }}
+                                                        onClick={() => HandleEndMeeting(meetingItem)}
+                                                    >
+                                                        כן
+                                                    </Button>
+                                                    <Button
+                                                        className="meeting-details-button"
+                                                        style={{ background: "red" }}
+                                                        onClick={() => setEndMeetingPop(false)}
+                                                    >
+                                                        לא
+                                                    </Button>
+                                                </div>
+                                            )}
+                                        </li>
+                                )
                             ))}
-
                         </ul>
                     </div>
-
-
                 ) : (
                     <p>אין פגישות נכון לרגע זה</p>
                 )}

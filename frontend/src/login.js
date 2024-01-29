@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './styles.css';
 import Button from 'react-bootstrap/Button';
 import axios from "axios";
@@ -10,7 +10,7 @@ function Login() {
     const [userId, setUserId] = useState('');
     const [detailMessage, setDetailMessage] = useState("");
     const [isLoading, setLoading] = useState(false);
-    const [list, setList] = useState({aleyZahv:"אולפנת עלי זהב",shiratHannan:"שירת חנן"});
+    const [list] = useState({aleyZahv:"אולפנת עלי זהב",shiratHannan:"שירת חנן"});
     const [selectedInstitution, setSelectedInstitution] = useState("");
     const navigate = useNavigate();
 
@@ -36,8 +36,9 @@ function Login() {
             try {
                 const res = await axios.post('http://localhost:8000/login', { id: userId, institution: selectedInstitution });
                 setDetailMessage(res.data);
-                if(res.data === 'success'){
-                    navigate("/home");
+                console.log(res.data);
+                if (res.data.status === 'success') {
+                    navigate("/home", { state: { username: res.data.username,userId: userId,isAdmin: res.data.isAdmin} });
                 }
 
             } catch (error) {
@@ -49,7 +50,6 @@ function Login() {
             }
         }
     };
-    const institutionOptions = Object.values(list);
 
     const handleInstitutionChange = (event) => {
         setSelectedInstitution(event.target.value);

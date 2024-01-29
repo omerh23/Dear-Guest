@@ -185,3 +185,10 @@ margin-top: 5px;
     width: 39px;
     margin: 2px
 }
+
+.username{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 10px;
+    font-family: Aharoni, serif;
+}
