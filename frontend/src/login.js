@@ -89,7 +89,7 @@ function Login() {
                         disabled={isLoading}
                         onClick={!isLoading ? handleClick : null}
                     >
-                        {isLoading ? '...טוען' : 'אישור'}
+                        {isLoading ? 'טוען...' : 'אישור'}
                     </Button>
                 </form>
                 <div className="Details-message">{detailMessage}</div>
