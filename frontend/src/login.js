@@ -34,7 +34,7 @@ function Login() {
             setLoading(false);
         } else {
             try {
-                const res = await axios.post('http://localhost:8000/login', { id: userId, institution: selectedInstitution });
+                const res = await axios.post('https://dearguest-backend.onrender.com/login', { id: userId, institution: selectedInstitution });
                 setDetailMessage(res.data);
                 console.log(res.data);
                 if (res.data.status === 'success') {

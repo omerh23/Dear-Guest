@@ -27,7 +27,7 @@ const Home = () => {
 
 
     async function meetingLists() {
-        const getMeetings = await axios.post('http://localhost:8000/meetingsList');
+        const getMeetings = await axios.post('https://dearguest-backend.onrender.com/meetingsList');
 
         const sortMeetings = [...getMeetings.data].sort((a, b) => {
             const [dayA, monthA, yearA] = a.date.split('/').map(Number);
@@ -104,7 +104,7 @@ const Home = () => {
             username:username
         };
 
-        const res = await axios.post('http://localhost:8000/addMeeting', { newMeeting });
+        const res = await axios.post('https://dearguest-backend.onrender.com/addMeeting', { newMeeting });
         console.log(res.data);
         if (res.data === 'success') {
             setMeeting([...meeting, newMeeting]);
@@ -131,7 +131,7 @@ const Home = () => {
     }
 
     async function HandleEndMeeting(meetingDetails) {
-        const res = await axios.post('http://localhost:8000/finishMeeting', {meetingDetails});
+        const res = await axios.post('https://dearguest-backend.onrender.com/finishMeeting', {meetingDetails});
         console.log(res.data)
         if (res.data === 'success') {
             setMeeting(prevMeeting => prevMeeting.filter(item => item !== meetingDetails));
