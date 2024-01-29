@@ -25,12 +25,12 @@ app.get('/', (req, res) => {
 app.post('/login', async (req, res) => {
     const { id } = req.body; // Destructure 'id' from request body
     const {institution} = req.body;
-    console.log(institution);
-    console.log(id);
+    //console.log(institution);
+    //console.log(id);
     const database = client.db(institution);
     const users = database.collection('users');
     const user = await users.findOne({userId: id});
-    console.log("user ",user);
+    //console.log("user ",user);
     if(user){
         return res.send({"status":"success","username":user.username,"isAdmin":user.isAdmin});
    }
@@ -46,13 +46,13 @@ app.post('/meetingsList', async (req, res) => {
     const database = client.db('aleyZahv');
     const meetingsCollection = database.collection('meetings');
     const meetingsList = await meetingsCollection.findOne({id: '123'});
-    console.log(meetingsList.meeting);
+    //console.log(meetingsList.meeting);
     res.send(meetingsList.meeting);
 });
 
 app.post('/addMeeting', async (req, res) => {
     const {newMeeting} = req.body;
-    console.log("new meeting",newMeeting);
+    //console.log("new meeting",newMeeting);
     const database = client.db('aleyZahv');
     const meetingsCollection = database.collection('meetings');
 
