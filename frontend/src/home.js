@@ -61,7 +61,7 @@ const Home = () => {
 
     useEffect(() => {
         meetingLists();
-    }, []);
+    }, [meeting]);
 
 
 
