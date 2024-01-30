@@ -190,6 +190,7 @@ const Home = () => {
             setDetailMessage('העובד לא התווסף למאגר');
         }
 
+
         setEmployeeName('');
         setEmployeeId('');
     }
