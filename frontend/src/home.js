@@ -190,7 +190,7 @@ const Home = () => {
             isAdmin: false
         };
 
-        const res = await axios.post('https://dearguest-backend.onrender.com/addEmplyee', {newEmployee, institution});
+        const res = await axios.post('https://dearguest-backend.onrender.com/addEmployee', {newEmployee, institution});
         setIsLoading(false);
         if (res.data === 'success') {
             setEmployeeDetailMessage('העובד התווסף בהצלחה');
