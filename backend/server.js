@@ -76,7 +76,7 @@ app.post('/addEmplyee', async (req, res) => {
     // Insert the new employee into the collection
     const result = await employeesCollection.insertOne(newEmployee);
 
-    if (result.insertedCount === 1) {
+    if (result.acknowledged) {
         // Successfully inserted one document
         res.send('success');
     } else {

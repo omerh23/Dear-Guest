@@ -80,6 +80,7 @@ const Home = () => {
     }
     function HandleMeetingButton() {
         setMeetingButton(!meetingButton);
+        setEmployeeDetailMessage('');
     }
 
     function validateTimeFormat(hours, minutes) {
@@ -165,6 +166,9 @@ const Home = () => {
 
     function HandleEmployeeButton() {
         setEmployeeButton(!employeeButton);
+        setEmployeeDetailMessage('');
+        setEmployeeName('');
+        setEmployeeId('');
     }
 
     async function HandleAddEmployee() {
@@ -176,7 +180,6 @@ const Home = () => {
 
 
         setEmployeeDetailMessage('');
-
 
         const newEmployee = {
             userId: employeeId,
@@ -191,7 +194,6 @@ const Home = () => {
         } else {
             setEmployeeDetailMessage('העובד לא התווסף למאגר');
         }
-
 
         setEmployeeName('');
         setEmployeeId('');
