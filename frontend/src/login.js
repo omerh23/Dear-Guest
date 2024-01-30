@@ -3,7 +3,7 @@ import './styles.css';
 import Button from 'react-bootstrap/Button';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import logo from './logo.png';
 
 function Login() {
 
@@ -61,6 +61,8 @@ function Login() {
 
 
         <div className="loginContainer">
+            <img src={logo} className="logo-img"  alt={logo}/>
+
             <h1 className="Login-header">כניסה לשירות</h1>
             <div className="center-field">
 
