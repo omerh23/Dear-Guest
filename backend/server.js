@@ -77,12 +77,7 @@ app.post('/addEmployee', async (req, res) => {
     // Check if the employee already exists
     const employeeExist = await employeesCollection.findOne({ userId: newEmployee.userId });
     console.log(employeeExist)
-    if (employeeExist === null) {
-        res.send('exist');
-    }
-
-    // If the employee doesn't exist and the flag is still false, proceed with insertion
-    else {
+    if (employeeExist !== null) {
         const result = await employeesCollection.insertOne(newEmployee);
 
         if (result.acknowledged) {
@@ -92,6 +87,11 @@ app.post('/addEmployee', async (req, res) => {
             // Failed to insert
             res.status(500).send('Failed to add employee to the database');
         }
+    }
+
+    else {
+        res.send('exist');
+
     }
 });
 
