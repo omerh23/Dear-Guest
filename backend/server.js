@@ -71,7 +71,7 @@ app.post('/addMeeting', async (req, res) => {
 app.post('/addEmplyee', async (req, res) => {
     const { newEmployee, institution } = req.body;
     const database = client.db(institution);
-    const employeesCollection = database.collection('employees'); // Assuming 'employees' is the collection name
+    const employeesCollection = database.collection('users');
 
     // Insert the new employee into the collection
     const result = await employeesCollection.insertOne(newEmployee);

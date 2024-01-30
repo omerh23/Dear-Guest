@@ -27,6 +27,8 @@ const Home = () => {
     const [hourArrive, setHourArrive] = useState('');
     const [minutesArrive, setMinutesArrive] = useState('');
     const [detailMessage, setDetailMessage] = useState('');
+    const [employeeDetailMessage, setEmployeeDetailMessage] = useState('');
+
     const [endMeetingPop, setEndMeetingPop] = useState(false);
     const [meetingId,setMeetingId] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
@@ -168,12 +170,12 @@ const Home = () => {
     async function HandleAddEmployee() {
         if (!employeeName.trim() || employeeId.length !== 9) {
             // Handle the case where one or both fields are empty or the pattern is not valid
-            setDetailMessage('יש למלא את כל השדות בצורה תקינה');
+            setEmployeeDetailMessage('יש למלא את כל השדות בצורה תקינה');
             return;
         }
 
 
-        setDetailMessage('');
+        setEmployeeDetailMessage('');
 
 
         const newEmployee = {
@@ -185,9 +187,9 @@ const Home = () => {
         const res = await axios.post('https://dearguest-backend.onrender.com/addEmplyee', {newEmployee, institution});
         console.log(res.data);
         if (res.data === 'success') {
-            setDetailMessage('העובד התווסף בהצלחה');
+            setEmployeeDetailMessage('העובד התווסף בהצלחה');
         } else {
-            setDetailMessage('העובד לא התווסף למאגר');
+            setEmployeeDetailMessage('העובד לא התווסף למאגר');
         }
 
 
@@ -213,7 +215,7 @@ const Home = () => {
                         )}
                     </>
                 )}
-                {detailMessage}
+                {employeeDetailMessage}
                 <Button className="logout-button" onClick={HandleLogout} style={{background:"red"}}>
                     התנתק
                 </Button>
