@@ -72,8 +72,11 @@ app.post('/addEmplyee', async (req, res) => {
     const { newEmployee, institution } = req.body;
     const database = client.db(institution);
     const employeesCollection = database.collection('users');
+    const employeeExist = await employeesCollection.findOne({userId: newEmployee.userId});
+    if(employeeExist){
+        res.send('exist');
+    }
 
-    // Insert the new employee into the collection
     const result = await employeesCollection.insertOne(newEmployee);
 
     if (result.acknowledged) {

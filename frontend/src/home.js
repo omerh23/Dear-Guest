@@ -32,7 +32,7 @@ const Home = () => {
     const [endMeetingPop, setEndMeetingPop] = useState(false);
     const [meetingId,setMeetingId] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
-
+    const [isLoading, setIsLoading] = useState(false);
     async function meetingLists() {
         const getMeetings = await axios.post('https://dearguest-backend.onrender.com/meetingsList',{institution});
 
@@ -97,6 +97,7 @@ const Home = () => {
             return;
         }
 
+        setIsLoading(true);
 
         setDetailMessage('');
 
@@ -114,7 +115,8 @@ const Home = () => {
         };
 
         const res = await axios.post('https://dearguest-backend.onrender.com/addMeeting', { newMeeting,institution });
-        console.log(res.data);
+        setIsLoading(false);
+
         if (res.data === 'success') {
             setMeeting([...meeting, newMeeting]);
         } else {
@@ -172,6 +174,7 @@ const Home = () => {
     }
 
     async function HandleAddEmployee() {
+        setIsLoading(true);
         if (!employeeName.trim() || employeeId.length !== 9) {
             // Handle the case where one or both fields are empty or the pattern is not valid
             setEmployeeDetailMessage('יש למלא את כל השדות בצורה תקינה');
@@ -188,9 +191,13 @@ const Home = () => {
         };
 
         const res = await axios.post('https://dearguest-backend.onrender.com/addEmplyee', {newEmployee, institution});
-        console.log(res.data);
+        setIsLoading(false);
         if (res.data === 'success') {
             setEmployeeDetailMessage('העובד התווסף בהצלחה');
+        }
+        else if(res.data === 'exist'){
+                setEmployeeDetailMessage('מספר הזהות קיים במערכת');
+
         } else {
             setEmployeeDetailMessage('העובד לא התווסף למאגר');
         }
@@ -212,7 +219,7 @@ const Home = () => {
                             <div className="add-meeting">
                                 <input className="meeting-field" placeholder="שם העובד" type="text" value={employeeName} onChange={HandleEmployeeName} required />
                                 <input className="meeting-field" placeholder="תעודת זהות" type="number" value={employeeId} onChange={HandleEmployeeId} required />
-                                <Button onClick={HandleAddEmployee} className="meeting-button">הוסף</Button>
+                                <Button disabled={isLoading} onClick={HandleAddEmployee} className="meeting-button">{isLoading ? 'טוען...'  :  'הוסף'}</Button>
                             </div>
                         )}
                     </>
@@ -248,7 +255,7 @@ const Home = () => {
                                 minDate={new Date()} // Set minDate to the current date
                                 className="meeting-field"
                             />
-                            <Button onClick={HandleAddMeeting} className="meeting-button">הוסף</Button>
+                            <Button disabled={isLoading} onClick={HandleAddMeeting} className="meeting-button">{isLoading ? 'טוען...'  :  'הוסף'}</Button>
                         </>
                         )}
 
@@ -306,6 +313,7 @@ const Home = () => {
                 ) : (
                     <p>אין פגישות נכון לרגע זה</p>
                 )}
+
             </div>
         </div>
     );
