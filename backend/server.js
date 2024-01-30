@@ -68,23 +68,33 @@ app.post('/addMeeting', async (req, res) => {
     }
 });
 
-app.post('/addEmplyee', async (req, res) => {
+let employeeAlreadyExists = false;
+
+app.post('/addEmployee', async (req, res) => {
     const { newEmployee, institution } = req.body;
     const database = client.db(institution);
     const employeesCollection = database.collection('users');
-    const employeeExist = await employeesCollection.findOne({userId: newEmployee.userId});
-    if(employeeExist){
+
+    // Check if the employee already exists
+    const employeeExist = await employeesCollection.findOne({ userId: newEmployee.userId });
+
+    if (employeeExist) {
+        // If the employee exists, set the flag to true and send 'exist' response
+        employeeAlreadyExists = true;
         res.send('exist');
     }
 
-    const result = await employeesCollection.insertOne(newEmployee);
+    // If the employee doesn't exist and the flag is still false, proceed with insertion
+    if (!employeeAlreadyExists) {
+        const result = await employeesCollection.insertOne(newEmployee);
 
-    if (result.acknowledged) {
-        // Successfully inserted one document
-        res.send('success');
-    } else {
-        // Failed to insert
-        res.status(500).send('Failed to add employee to the database');
+        if (result.acknowledged) {
+            // Successfully inserted one document
+            res.send('success');
+        } else {
+            // Failed to insert
+            res.status(500).send('Failed to add employee to the database');
+        }
     }
 });
 
