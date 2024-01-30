@@ -74,10 +74,8 @@ margin-top: 5px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    display: flex;
-    margin-left: auto;
     margin-top: 10px;
-    margin-right: 10px;
+
 }
 
 .logout-button:hover {
@@ -187,13 +185,22 @@ margin-top: 5px;
     margin: 2px
 }
 
-.username{
-    display: flex;
-    flex-direction: row-reverse;
-    margin-right: 10px;
-    font-family: Aharoni, serif;
-}
+/*.username{*/
+/*    display: flex;*/
+/*    flex-direction: row-reverse;*/
+/*    margin-right: 10px;*/
+/*    font-family: Aharoni, serif;*/
+/*}*/
 
 .meeting-text{
     margin: 10px;
+}
+
+.side-bar{
+    display: flex;
+    margin-right: 10px;
+    font-family: Aharoni, serif;
+    flex-direction: column;
+    align-items: flex-end;
+
 }

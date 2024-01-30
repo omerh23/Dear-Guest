@@ -18,14 +18,18 @@ const Home = () => {
     const navigate = useNavigate();
     const [meeting, setMeeting] = useState([]);
     const [meetingButton, setMeetingButton] = useState(false);
+    const [employeeButton, setEmployeeButton] = useState(false);
+
     const [guestName,setGuestName] = useState('');
+    const [employeeName,setEmployeeName] = useState('');
+    const [employeeId,setEmployeeId] = useState('');
+
     const [hourArrive, setHourArrive] = useState('');
     const [minutesArrive, setMinutesArrive] = useState('');
     const [detailMessage, setDetailMessage] = useState('');
     const [endMeetingPop, setEndMeetingPop] = useState(false);
     const [meetingId,setMeetingId] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
-
 
     async function meetingLists() {
         const getMeetings = await axios.post('https://dearguest-backend.onrender.com/meetingsList',{institution});
@@ -90,6 +94,7 @@ const Home = () => {
             return;
         }
 
+
         setDetailMessage('');
 
         // Format hours and minutes with leading zeros
@@ -130,6 +135,12 @@ const Home = () => {
     function HandleGuestName(event) {
         setGuestName(event.target.value);
     }
+    function HandleEmployeeName(event) {
+        setEmployeeName(event.target.value);
+    }
+    function HandleEmployeeId(event) {
+        setEmployeeId(event.target.value);
+    }
 
     async function HandleEndMeeting(meetingDetails) {
         const res = await axios.post('https://dearguest-backend.onrender.com/finishMeeting', {meetingDetails,institution});
@@ -150,12 +161,66 @@ const Home = () => {
 
     }
 
+    function HandleEmployeeButton() {
+        setEmployeeButton(!employeeButton);
+    }
+
+    async function HandleAddEmployee() {
+        if (!employeeName.trim() || employeeId.length !== 9) {
+            // Handle the case where one or both fields are empty or the pattern is not valid
+            setDetailMessage('יש למלא את כל השדות בצורה תקינה');
+            return;
+        }
+
+
+        setDetailMessage('');
+
+
+        const newEmployee = {
+            userId: employeeId,
+            username: employeeName,
+            isAdmin: false
+        };
+
+        const res = await axios.post('https://dearguest-backend.onrender.com/addEmplyee', {newEmployee, institution});
+        console.log(res.data);
+        if (res.data === 'success') {
+            setDetailMessage('העובד התווסף בהצלחה');
+        } else {
+            setDetailMessage('העובד לא התווסף למאגר');
+        }
+
+        setEmployeeName('');
+        setEmployeeId('');
+    }
+
     return (
         <div>
-            <p className="username">שלום, {username}</p>
-            <Button className="logout-button" onClick={HandleLogout}>
-                התנתק
-            </Button>
+            <div className="side-bar">
+                <p>שלום, {username}</p>
+                {isAdmin && (
+                    <>
+                        <Button className="logout-button" onClick={HandleEmployeeButton}>
+                            הוסף עובד למאגר
+                        </Button>
+                        {employeeButton && (
+                            <div className="add-meeting">
+                                <input className="meeting-field" placeholder="שם העובד" type="text" value={employeeName} onChange={HandleEmployeeName} required />
+                                <input className="meeting-field" placeholder="תעודת זהות" type="number" value={employeeId} onChange={HandleEmployeeId} required />
+                                <Button onClick={HandleAddEmployee} className="meeting-button">הוסף</Button>
+                            </div>
+                        )}
+                    </>
+                )}
+                {detailMessage}
+                <Button className="logout-button" onClick={HandleLogout} style={{background:"red"}}>
+                    התנתק
+                </Button>
+            </div>
+
+
+
+
 
             <div className="home-container">
                 <h1>מפגשים</h1>
