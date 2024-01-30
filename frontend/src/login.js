@@ -10,7 +10,7 @@ function Login() {
     const [userId, setUserId] = useState('');
     const [detailMessage, setDetailMessage] = useState("");
     const [isLoading, setLoading] = useState(false);
-    const [list] = useState({aleyZahv:"אולפנת עלי זהב",shiratHannan:"שירת חנן"});
+    const [list] = useState({aleyZahav:"אולפנת עלי זהב",sesNofyam:"נוף ים עמק האלה"});
     const [selectedInstitution, setSelectedInstitution] = useState("");
     const navigate = useNavigate();
 
@@ -38,7 +38,8 @@ function Login() {
                 setDetailMessage(res.data);
                 console.log(res.data);
                 if (res.data.status === 'success') {
-                    navigate("/home", { state: { username: res.data.username,userId: userId,isAdmin: res.data.isAdmin} });
+                    navigate("/home", { state: { username: res.data.username,
+                            userId: userId,isAdmin: res.data.isAdmin,institution:selectedInstitution} });
                 }
 
             } catch (error) {

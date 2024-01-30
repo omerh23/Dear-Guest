@@ -42,8 +42,9 @@ app.post('/login', async (req, res) => {
 
 
 app.post('/meetingsList', async (req, res) => {
+    const {institution} = req.body;
 
-    const database = client.db('aleyZahv');
+    const database = client.db(institution);
     const meetingsCollection = database.collection('meetings');
     const meetingsList = await meetingsCollection.findOne({id: '123'});
     //console.log(meetingsList.meeting);
@@ -52,8 +53,10 @@ app.post('/meetingsList', async (req, res) => {
 
 app.post('/addMeeting', async (req, res) => {
     const {newMeeting} = req.body;
+    const {institution} = req.body;
+
     //console.log("new meeting",newMeeting);
-    const database = client.db('aleyZahv');
+    const database = client.db(institution);
     const meetingsCollection = database.collection('meetings');
 
     // Insert the new meeting into the collection
@@ -69,8 +72,9 @@ app.post('/addMeeting', async (req, res) => {
 
 app.post('/finishMeeting', async (req, res) => {
     try {
+        const {institution} = req.body;
         const { meetingDetails } = req.body;
-        const database = client.db('aleyZahv');
+        const database = client.db(institution);
         const meetingsCollection = database.collection('meetings');
 
         // Update the document by pulling the specific meeting from the 'meeting' array

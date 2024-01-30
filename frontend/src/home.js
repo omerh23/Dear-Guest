@@ -14,6 +14,7 @@ const Home = () => {
     const username = location.state.username ? location.state.username : null ;
     const userId = location.state.userId;
     const isAdmin = location.state.isAdmin ? location.state.isAdmin : false;
+    const institution = location.state.institution;
     const navigate = useNavigate();
     const [meeting, setMeeting] = useState([]);
     const [meetingButton, setMeetingButton] = useState(false);
@@ -27,7 +28,7 @@ const Home = () => {
 
 
     async function meetingLists() {
-        const getMeetings = await axios.post('https://dearguest-backend.onrender.com/meetingsList');
+        const getMeetings = await axios.post('https://dearguest-backend.onrender.com/meetingsList',{institution});
 
         const sortMeetings = [...getMeetings.data].sort((a, b) => {
             const [dayA, monthA, yearA] = a.date.split('/').map(Number);
@@ -104,7 +105,7 @@ const Home = () => {
             username:username
         };
 
-        const res = await axios.post('https://dearguest-backend.onrender.com/addMeeting', { newMeeting });
+        const res = await axios.post('https://dearguest-backend.onrender.com/addMeeting', { newMeeting,institution });
         console.log(res.data);
         if (res.data === 'success') {
             setMeeting([...meeting, newMeeting]);
@@ -131,7 +132,7 @@ const Home = () => {
     }
 
     async function HandleEndMeeting(meetingDetails) {
-        const res = await axios.post('https://dearguest-backend.onrender.com/finishMeeting', {meetingDetails});
+        const res = await axios.post('https://dearguest-backend.onrender.com/finishMeeting', {meetingDetails,institution});
         console.log(res.data)
         if (res.data === 'success') {
             setMeeting(prevMeeting => prevMeeting.filter(item => item !== meetingDetails));
