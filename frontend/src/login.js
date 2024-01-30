@@ -63,7 +63,7 @@ function Login() {
         <div className="loginContainer">
             <img src={logo} className="logo-img"  alt={logo}/>
 
-            <h1 className="Login-header">כניסה לשירות</h1>
+            {/*<h1 className="Login-header">כניסה לשירות</h1>*/}
             <div className="center-field">
 
                 <form>
