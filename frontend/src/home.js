@@ -174,13 +174,13 @@ const Home = () => {
     }
 
     async function HandleAddEmployee() {
-        setIsLoading(true);
         if (!employeeName.trim() || employeeId.length !== 9) {
             // Handle the case where one or both fields are empty or the pattern is not valid
             setEmployeeDetailMessage('יש למלא את כל השדות בצורה תקינה');
             return;
         }
 
+        setIsLoading(true);
 
         setEmployeeDetailMessage('');
 
