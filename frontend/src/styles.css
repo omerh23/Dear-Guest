@@ -1,32 +1,43 @@
 
 /*Login*/
 
-.loginContainer{
+.loginContainer {
     text-align: center;
-    font-family: Aharoni, serif;
+    font-family: 'Aharoni', serif;
     justify-content: center;
-    height: 70vh; /* Ensure the container takes the full height of the viewport */
+    height: 100vh;
     align-items: center;
     display: flex;
     flex-direction: column;
-    background-color: #6666a1;
+    background: linear-gradient(to right, #6666a1, #57417d);
     color: #fff;
     direction: rtl;
-
 }
 
-.Login-header{
 
+.Login-header {
+    margin-bottom: 20px;
 }
 
-.Details-message{
-margin-top: 5px;
+.center-field {
+    margin-top: 20px;
 }
+
+.signin-field {
+    width: 250px;
+    padding: 10px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-family: Aharoni, serif;
+    outline: none;
+}
+
+
 
 .signin-button {
     border: none;
     border-radius: 5px;
-    padding: 5px 10px;
+    padding: 10px 15px;
     margin-right: 5px;
     background-color: #7d7df3;
     color: #fff;
@@ -34,29 +45,50 @@ margin-top: 5px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-
 }
 
 .signin-button:hover {
     background-color: #5a5acf;
 }
 
-/* Additional styling for focus state (optional) */
-.signin-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(125, 125, 243, 0.5);
+.signin-button:disabled {
+    background-color: #b3b3b3;
+    cursor: not-allowed;
 }
 
-.signin-field{
-    /*border: none;*/
-    outline: none;
-    font-family: Aharoni,'serif';
-    width: 150px;
-    font-size: 16px;
-    display: flex;
+.Details-message {
+    margin-top: 10px;
+    color: #ff5555;
 }
+
+/* Additional styling for select element */
+.signin-field select {
+    width: 250px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Additional styling for input placeholder */
+.signin-field::placeholder {
+    color: #ccc;
+}
+
+/* Additional styling for form */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 /*Home*/
+
+.container{
+    background: linear-gradient(to right, #6666a1, #57417d);
+    height: 100vh;
+
+}
 
 .home-container{
     text-align: center;
@@ -68,25 +100,19 @@ margin-top: 5px;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
-    background-color: #7d7df3;
+    background-color: #ef0527;
     color: #fff;
     font-family: 'Aharoni', serif;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
 
 }
 
 .logout-button:hover {
-    background-color: #5a5acf;
+    background-color: #b40922;
 }
 
-/* Additional styling for focus state (optional) */
-.logout-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(125, 125, 243, 0.5);
-}
 
 .meeting-button{
     border: none;
@@ -95,10 +121,10 @@ margin-top: 5px;
     background-color: #7d7df3;
     color: #fff;
     font-family: 'Aharoni', serif;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-
+    margin: 5px;
 }
 
 .meeting-button:hover {
@@ -111,6 +137,11 @@ margin-top: 5px;
     box-shadow: 0 0 0 3px rgba(125, 125, 243, 0.5);
 }
 
+.meeting-button:disabled {
+    background-color: #b3b3b3;
+    cursor: not-allowed;
+}
+
 .add-meeting{
     display: flex;
     flex-direction: row;
@@ -119,6 +150,7 @@ margin-top: 5px;
     margin-top: 10px;
     margin-bottom: 10px;
     direction: rtl;
+    font-size: 18px;
 }
 
 .meeting-field{
@@ -127,7 +159,7 @@ margin-top: 5px;
     outline: none;
     font-family: Aharoni,'serif';
     width: 150px;
-    font-size: 16px;
+    font-size: 20px;
     display: flex;
 }
 
@@ -138,14 +170,16 @@ margin-top: 5px;
     flex-wrap: wrap;
     flex-direction: column;
     align-content: center;
-
+    font-size: 20px;
 }
 
 .meeting-content {
-    border: 1px solid #ccc;
-    padding: 15px;
+    border: 2px solid #5e5ec0;
+    border-radius: 5px;
+    padding: 12px;
     /*margin: 5px;*/
-    width: 700px; /* Adjust the width as needed */
+    width: 800px; /* Adjust the width as needed */
+    margin: 5px;
 }
 
 .meeting-details {
@@ -160,7 +194,7 @@ margin-top: 5px;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
-    background-color: #7d7df3;
+    background-color: #2e720c;
     color: #fff;
     font-family: 'Aharoni', serif;
     font-size: 16px;
@@ -171,7 +205,7 @@ margin-top: 5px;
 }
 
 .meeting-details-button:hover {
-    background-color: #5a5acf;
+    background-color: #225708;
 }
 
 /* Additional styling for focus state (optional) */
@@ -181,16 +215,21 @@ margin-top: 5px;
 }
 
 .hour-meeting-field{
-    width: 39px;
-    margin: 2px
+    width: 46px;
+    margin: 2px;
+    outline: none;
+    font-family: Aharoni,'serif';
+    font-size: 20px;
+    display: flex;
+    -moz-appearance: textfield; /* Firefox */
+
 }
 
-/*.username{*/
-/*    display: flex;*/
-/*    flex-direction: row-reverse;*/
-/*    margin-right: 10px;*/
-/*    font-family: Aharoni, serif;*/
-/*}*/
+.hour-meeting-field::-webkit-inner-spin-button,
+.hour-meeting-field::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 .meeting-text{
     margin: 10px;
@@ -202,5 +241,6 @@ margin-top: 5px;
     font-family: Aharoni, serif;
     flex-direction: column;
     align-items: flex-end;
-
+    font-size: 20px;
 }
+

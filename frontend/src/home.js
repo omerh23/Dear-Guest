@@ -79,6 +79,7 @@ const Home = () => {
         navigate('/');
     }
     function HandleMeetingButton() {
+        setEmployeeButton(false);
         setMeetingButton(!meetingButton);
         setEmployeeDetailMessage('');
     }
@@ -167,6 +168,7 @@ const Home = () => {
     }
 
     function HandleEmployeeButton() {
+        setMeetingButton(false);
         setEmployeeButton(!employeeButton);
         setEmployeeDetailMessage('');
         setEmployeeName('');
@@ -207,12 +209,23 @@ const Home = () => {
     }
 
     return (
-        <div>
+        <div className="container">
             <div className="side-bar">
                 <p>שלום, {username}</p>
+                <Button className="logout-button" onClick={HandleLogout}>
+                    התנתק
+                </Button>
+            </div>
+
+            <div className="home-container">
+                <h1>יומן פגישות</h1>
+
+                <Button className="meeting-button" onClick={HandleMeetingButton}>
+                    הוסף פגישה
+                </Button >
                 {isAdmin && (
                     <>
-                        <Button className="logout-button" onClick={HandleEmployeeButton}>
+                        <Button className="meeting-button" onClick={HandleEmployeeButton}>
                             הוסף עובד למאגר
                         </Button>
                         {employeeButton && (
@@ -225,21 +238,6 @@ const Home = () => {
                     </>
                 )}
                 {employeeDetailMessage}
-                <Button className="logout-button" onClick={HandleLogout} style={{background:"red"}}>
-                    התנתק
-                </Button>
-            </div>
-
-
-
-
-
-            <div className="home-container">
-                <h1>מפגשים</h1>
-
-                <Button className="meeting-button" onClick={HandleMeetingButton}>
-                    הוסף פגישה
-                </Button >
                 <div className="add-meeting">
                     {meetingButton && (
                         <>
@@ -261,58 +259,56 @@ const Home = () => {
 
                 </div>
                 {detailMessage}
-                <h2>יומן פגישות</h2>
-                {meeting.length > 0 ? (
-                    <div className="meetings-result">
-                        <ul className="meeting-list">
-                            {meeting.map((meetingItem, index) => (
-                                (meetingItem.userId === userId || isAdmin) && (
 
-                                        <li key={index} className="meeting-content">
-                                                <div className="meeting-details">
-                                                    <Button
-                                                        className="meeting-details-button"
-                                                        style={{ background: "green" }}
-                                                        onClick={() => {
-                                                            setEndMeetingPop(true);
-                                                            setMeetingId(index);
-                                                        }}
-                                                    >
-                                                        סיים פגישה
-                                                    </Button>
-                                                    <p className="meeting-text">שעת הגעה: {meetingItem.arrivalTime}</p>
-                                                    <p className="meeting-text">מגיע אל: {meetingItem.username}</p>
-                                                    <p className="meeting-text">שם האורח: {meetingItem.guestName}</p>
-                                                    <p className="meeting-text">תאריך: {meetingItem.date}</p>
-                                                </div>
+                <div className="meetings-result">
+                    <ul className="meeting-list">
+                        {meeting.map((meetingItem, index) => (
+                            (meetingItem.userId === userId || isAdmin) && (
 
-                                            {endMeetingPop && meetingId === index && (
-                                                <div className="end-meeting-pop">
-                                                    <p>האם אתה רוצה לסיים פגישה זו</p>
-                                                    <Button
-                                                        className="meeting-details-button"
-                                                        style={{ background: "green" }}
-                                                        onClick={() => HandleEndMeeting(meetingItem)}
-                                                    >
-                                                        כן
-                                                    </Button>
-                                                    <Button
-                                                        className="meeting-details-button"
-                                                        style={{ background: "red" }}
-                                                        onClick={() => setEndMeetingPop(false)}
-                                                    >
-                                                        לא
-                                                    </Button>
-                                                </div>
-                                            )}
-                                        </li>
-                                )
-                            ))}
-                        </ul>
-                    </div>
-                ) : (
-                    <p>אין פגישות נכון לרגע זה</p>
-                )}
+                                <li key={index} className="meeting-content">
+                                    <div className="meeting-details">
+                                        <Button
+                                            className="meeting-details-button"
+                                            onClick={() => {
+                                                setEndMeetingPop(true);
+                                                setMeetingId(index);
+                                            }}
+                                        >
+                                            סיים פגישה
+                                        </Button>
+                                        <p className="meeting-text">שעת הגעה: {meetingItem.arrivalTime}</p>
+                                        <p className="meeting-text">מגיע אל: {meetingItem.username}</p>
+                                        <p className="meeting-text">שם האורח: {meetingItem.guestName}</p>
+                                        <p className="meeting-text">תאריך: {meetingItem.date}</p>
+                                    </div>
+
+                                    {endMeetingPop && meetingId === index && (
+                                        <div className="end-meeting-pop">
+                                            <p>האם אתה רוצה לסיים פגישה זו</p>
+                                            <Button
+                                                className="meeting-details-button"
+                                                style={{ background: "green" }}
+                                                onClick={() => HandleEndMeeting(meetingItem)}
+                                            >
+                                                כן
+                                            </Button>
+                                            <Button
+                                                className="meeting-details-button"
+                                                style={{ background: "red" }}
+                                                onClick={() => setEndMeetingPop(false)}
+                                            >
+                                                לא
+                                            </Button>
+                                        </div>
+                                    )}
+                                </li>
+                            )
+
+                        ))}
+                    </ul>
+                </div>
+
+
 
             </div>
         </div>
