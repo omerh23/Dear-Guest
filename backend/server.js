@@ -77,7 +77,7 @@ app.post('/addEmployee', async (req, res) => {
 
     // Check if the employee already exists
     const employeeExist = await employeesCollection.findOne({ userId: newEmployee.userId });
-
+    console.log(employeeExist)
     if (employeeExist) {
         // If the employee exists, set the flag to true and send 'exist' response
         employeeAlreadyExists = true;
