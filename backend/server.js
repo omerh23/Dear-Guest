@@ -43,7 +43,6 @@ app.post('/login', async (req, res) => {
 
 app.post('/meetingsList', async (req, res) => {
     const {institution} = req.body;
-
     const database = client.db(institution);
     const meetingsCollection = database.collection('meetings');
     const meetingsList = await meetingsCollection.findOne({id: '123'});
@@ -52,9 +51,8 @@ app.post('/meetingsList', async (req, res) => {
 });
 
 app.post('/addMeeting', async (req, res) => {
-    const {newMeeting} = req.body;
-    const {institution} = req.body;
-
+    const { newMeeting, institution } = req.body;
+    console.log(institution);
     //console.log("new meeting",newMeeting);
     const database = client.db(institution);
     const meetingsCollection = database.collection('meetings');
@@ -72,8 +70,7 @@ app.post('/addMeeting', async (req, res) => {
 
 app.post('/finishMeeting', async (req, res) => {
     try {
-        const {institution} = req.body;
-        const { meetingDetails } = req.body;
+        const { meetingDetails, institution } = req.body;
         const database = client.db(institution);
         const meetingsCollection = database.collection('meetings');
 
