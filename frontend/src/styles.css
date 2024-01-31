@@ -1,6 +1,10 @@
 
 /*Login*/
-
+html, body {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(to right, #d2d2e0, #e6e3f1);
+}
 .loginContainer {
     text-align: center;
     font-family: 'Aharoni', serif;
@@ -9,7 +13,6 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(to right, #afafb2, #e6e3f1);
     color: #fff;
     direction: rtl;
 }
