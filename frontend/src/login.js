@@ -57,6 +57,12 @@ function Login() {
         console.log(selectedInstitution)
     };
 
+    function HandleKey(event) {
+        if (event.key === 'Enter' && !isLoading) {
+            handleClick();
+        }
+    }
+
     return (
 
 
@@ -84,7 +90,13 @@ function Login() {
 
                     <br/>
                     <br/>
-                    <input placeholder="הכנס ת''ז" className="signin-field" type="text" value={userId} onChange={handleId} required />
+                    <input placeholder="הכנס ת''ז"
+                           className="signin-field"
+                           type="text"
+                           value={userId}
+                           onChange={handleId} required
+                           onKeyDown={HandleKey}
+                    />
                    <br/>
                     <Button
                         className="signin-button"
