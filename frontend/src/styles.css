@@ -272,4 +272,6 @@ form {
 .time-field{
     margin-left: 2px;
     height: 22px;
+    font-family: Aharoni,'serif';
+    font-size: 20px;
 }
