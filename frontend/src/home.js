@@ -25,10 +25,9 @@ const Home = () => {
     const [employeeName,setEmployeeName] = useState('');
     const [employeeId,setEmployeeId] = useState('');
 
-    const [hourArrive, setHourArrive] = useState('');
-    const [minutesArrive, setMinutesArrive] = useState('');
     const [detailMessage, setDetailMessage] = useState('');
     const [employeeDetailMessage, setEmployeeDetailMessage] = useState('');
+    const [selectedTime, setSelectedTime] = useState('');
 
     const [endMeetingPop, setEndMeetingPop] = useState(false);
     const [meetingId,setMeetingId] = useState(null);
@@ -85,16 +84,9 @@ const Home = () => {
         setEmployeeDetailMessage('');
     }
 
-    function validateTimeFormat(hours, minutes) {
-        const hoursValid = /^[0-9]{1,2}$/.test(hours) && hours >= 0 && hours <= 23;
-        const minutesValid = /^[0-9]{1,2}$/.test(minutes) && minutes >= 0 && minutes <= 59;
-        return hoursValid && minutesValid;
-    }
-
 
     async function HandleAddMeeting() {
-        if (!guestName.trim() || !validateTimeFormat(hourArrive, minutesArrive)) {
-            // Handle the case where one or both fields are empty or the pattern is not valid
+        if (!guestName.trim() || !selectedTime) {
             setDetailMessage('יש למלא את כל השדות בצורה תקינה');
             return;
         }
@@ -102,15 +94,11 @@ const Home = () => {
         setIsLoading(true);
 
         setDetailMessage('');
-
-        // Format hours and minutes with leading zeros
-        const formattedHours = hourArrive.padStart(2, '0');
-        const formattedMinutes = minutesArrive.padStart(2, '0');
         const formattedDate = format(startDate, 'dd/MM/yyyy');
 
         const newMeeting = {
             guestName: guestName,
-            arrivalTime: `${formattedHours}:${formattedMinutes}`,
+            arrivalTime: selectedTime,
             date: formattedDate,
             userId: userId,
             username:username
@@ -127,17 +115,10 @@ const Home = () => {
 
         // Clear the input fields
         setGuestName('');
-        setHourArrive('');
-        setMinutesArrive('');
+        setSelectedTime('');
     }
 
 
-
-
-
-    function HandleHourArrive(event) {
-        setHourArrive(event.target.value);
-    }
 
     function HandleGuestName(event) {
         setGuestName(event.target.value);
@@ -162,11 +143,6 @@ const Home = () => {
 
     }
 
-
-    function HandleMinutesArrive(event) {
-        setMinutesArrive(event.target.value);
-
-    }
 
     function HandleEmployeeButton() {
         setMeetingButton(false);
@@ -209,6 +185,11 @@ const Home = () => {
         setEmployeeId('');
     }
 
+    const handleTimeChange = (event) => {
+        // Update the state with the selected time
+        setSelectedTime(event.target.value);
+        console.log(selectedTime);
+    };
     return (
         <div className="container">
             <div className="side-bar">
@@ -246,10 +227,14 @@ const Home = () => {
                     {meetingButton && (
                         <>
                             <input className="meeting-field" placeholder="שם האורח" type="text" value={guestName} onChange={HandleGuestName} required />
-                            <input className="hour-meeting-field" type="number" min="00" max="59" placeholder="דקה"  value={minutesArrive} onChange={HandleMinutesArrive} required />
-                            <p>:</p>
-                            <input className="hour-meeting-field" type="number" min="00" max="23" placeholder="שעה"  value={hourArrive} onChange={HandleHourArrive} required />
-
+                            <input
+                                type="time"
+                                id="timeInput"
+                                name="timeInput"
+                                value={selectedTime}
+                                onChange={handleTimeChange}
+                                className="time-field"
+                            />
                             <DatePicker
                                 selected={startDate}
                                 onChange={(date) => setStartDate(date)}
@@ -257,6 +242,7 @@ const Home = () => {
                                 minDate={new Date()} // Set minDate to the current date
                                 className="meeting-field"
                             />
+
                             <Button disabled={isLoading} onClick={HandleAddMeeting} className="meeting-button">{isLoading ? 'טוען...'  :  'הוסף'}</Button>
                         </>
                         )}
