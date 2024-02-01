@@ -6,6 +6,7 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from 'date-fns';
+import logo from './logoDg.png';
 
 
 
@@ -211,6 +212,9 @@ const Home = () => {
     return (
         <div className="container">
             <div className="side-bar">
+                <div className="logo-container">
+                    <img className="logo-img" src={logo} alt="Logo" />
+                </div>
                 <p>שלום, {username}</p>
                 <Button className="logout-button" onClick={HandleLogout}>
                     התנתק

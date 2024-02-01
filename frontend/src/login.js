@@ -3,7 +3,7 @@ import './styles.css';
 import Button from 'react-bootstrap/Button';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import logo from './logo.png';
+import logo from './logoDg.png';
 
 function Login() {
 

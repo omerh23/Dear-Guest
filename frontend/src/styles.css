@@ -88,8 +88,7 @@ form {
 /*Home*/
 
 .container{
-    background: linear-gradient(to right, #d2d2e0, #e6e3f1);
-    height: 100vh;
+
 
 }
 
@@ -246,13 +245,14 @@ form {
     margin: 10px;
 }
 
-.side-bar{
+.side-bar {
     display: flex;
     margin-right: 10px;
     font-family: Aharoni, serif;
     flex-direction: column;
     align-items: flex-end;
     font-size: 20px;
+    position: relative;
 }
 
 .logo-container {
@@ -263,7 +263,8 @@ form {
 }
 
 .logo-img {
-    width: 200px; /* Adjust the width as needed */
-    height: auto; /* Maintain the aspect ratio */
-    border-radius: 50%; /* Optional: Apply a border-radius for a circular logo */
+    width: 200px;
+    height: auto;
+    border-radius: 50%;
+    margin-top: 30px;
 }
