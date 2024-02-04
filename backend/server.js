@@ -3,7 +3,7 @@ const { MongoClient, ServerApiVersion} = require('mongodb');
 
 const cors = require('cors');
 
-const uri = "mongodb+srv://DearGuest23:rUKmEgVN6lPmfYaE@cluster.kly5ytl.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.MONGO_URL;
 const app = express();
 const port = 8000;
 app.use(cors());
