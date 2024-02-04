@@ -3,6 +3,10 @@
 ## Overview
 This web application addresses the scheduling challenges faced by security guards at a school. It allows school staff to send meeting notifications with real-time updates to the security guard, ensuring smooth access for scheduled meetings.
 
+![image](https://github.com/omerh23/Dear-Guest/assets/93769579/1edeb98c-de60-4363-9992-0ce114a5e7e4)
+
+
+
 ## Features
 - **Real-time Notifications:** Instant updates for scheduled meetings.
 - **Secure Login:** Differentiated access for staff and security personnel.
