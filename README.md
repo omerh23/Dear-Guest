@@ -5,6 +5,7 @@ This web application addresses the scheduling challenges faced by security guard
 
 ![image](https://github.com/omerh23/Dear-Guest/assets/93769579/1edeb98c-de60-4363-9992-0ce114a5e7e4)
 
+![image](https://github.com/omerh23/Dear-Guest/assets/93769579/9daddba2-c0ec-47f8-ad55-b140068473c3)
 
 
 ## Features
