@@ -33,12 +33,6 @@ also for backend
 2. Staff members log in to schedule meetings.
 3. Security personnel log in to receive real-time updates and manage meetings.
 
-## Screenshots
-Include a few screenshots showcasing the user interface or important features.
-
-## Contributing
-Feel free to contribute by submitting bug reports, feature requests, or pull requests. Follow the [contributing guidelines](CONTRIBUTING.md) for more information.
-
 ## License
 This project is licensed under the [MIT License](LICENSE).
 
