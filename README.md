@@ -39,5 +39,4 @@ This project is licensed under the [MIT License](LICENSE).
 ## Contact
 For inquiries or feedback, please contact Omer Halfon at omerhalfon1234@gmail.com.
 
----
-**Note:** Customize the information and structure according to your project's specifics. Don't forget to include license details, contributing guidelines, and any additional information relevant to your project.
+
